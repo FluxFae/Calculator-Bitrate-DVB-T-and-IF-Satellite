@@ -1,4 +1,4 @@
-# Flux Engineering: RF & Digital Broadcast Utilities
+# RF & Digital Broadcast Utilities
 
 ![RF Broadcast Utilities Demo](.github/assets/RF-broadcast-Utilities.gif)
 
