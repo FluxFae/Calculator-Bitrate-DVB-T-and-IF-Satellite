@@ -36,3 +36,7 @@ coverage/
 *.njsproj
 *.sln
 *.sw?
+src/assets/design/DESIGN.md
+
+# Agent specs
+openspec/

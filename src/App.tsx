@@ -1,76 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Radio, Tv, Layers } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Radio, Tv, Layers } from 'lucide-react';
 import { DvbTCalculator } from './components/DvbTCalculator';
 import { DvbSCalculator } from './components/DvbSCalculator';
 
 const App: React.FC = () => {
-  // Theme state: default to 'dark' or loaded from localStorage
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    const savedTheme = localStorage.getItem('flux-theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      return savedTheme;
-    }
-    return 'dark'; // Default
-  });
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const headerRef = useRef<HTMLElement>(null);
 
-  // Apply theme class to documentElement
   useEffect(() => {
-    const root = document.documentElement;
+    // Apply theme to document root
     if (theme === 'light') {
-      root.classList.add('light');
+      document.documentElement.classList.add('light');
     } else {
-      root.classList.remove('light');
+      document.documentElement.classList.remove('light');
     }
-    localStorage.setItem('flux-theme', theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    const handleThemeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ theme: 'light' | 'dark' }>;
+      setTheme(customEvent.detail.theme);
+    };
+
+    header.addEventListener('theme-change', handleThemeChange);
+    return () => header.removeEventListener('theme-change', handleThemeChange);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-theme-bg text-theme-text-primary transition-all-custom font-sans antialiased">
+    <div className="min-h-screen bg-[var(--theme-bg)] text-[var(--theme-text-primary)] transition-all-custom font-sans antialiased">
       {/* Header / Nav Container */}
-      <header className="border-b border-theme-border bg-theme-surface/30 backdrop-blur-md sticky top-0 z-50 transition-all-custom">
-        <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-flux-wine p-2 rounded-lg text-white shadow-md shadow-flux-wine/25">
-              <Layers className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-xl font-bold tracking-tight text-theme-text-primary font-sans flex items-center gap-1.5">
-                FLUX <span className="text-flux-accent font-semibold text-xs tracking-wider border border-flux-accent/30 rounded px-1.5 py-0.5 bg-flux-accent/5">ENGINEERING</span>
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {/* Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              className="p-2.5 rounded-lg bg-theme-surface border border-theme-border text-theme-text-secondary hover:text-flux-accent hover:border-flux-accent hover:bg-flux-accent/5 transition-all-custom focus-ring-custom cursor-pointer"
-              title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-flux-terracotta" />
-              ) : (
-                <Moon className="w-4 h-4 text-flux-wine" />
-              )}
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* @ts-ignore - Web Component recognized globally, ignoring linter just in case */}
+      <ui-header ref={headerRef} theme={theme}>
+        <Layers slot="app-icon" className="w-5 h-5 text-[var(--theme-text-primary)]" />
+        <div slot="app-title">RF & Digital Broadcast Utilities</div>
+      </ui-header>
 
       {/* Main Content Dashboard */}
       <main className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Intro Hero Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight text-theme-text-primary sm:text-4xl">
-            RF & Digital Broadcast Utilities
-          </h1>
-          <p className="mt-2 text-sm text-theme-text-secondary max-w-2xl">
-            Real-time, high-precision telemetry and configuration modeling for DVB transmission protocols.
-            Supports full Universal Ku-band translation matrix and DVB-T symbol duration parsing.
+          <p className="text-sm text-[var(--theme-text-secondary)] max-w-2xl">
+            This application provides rapid, high-precision calculations for DVB-T modulation bandwidths, Intermediate Frequency (IF) localization
           </p>
         </div>
 
@@ -78,8 +51,8 @@ const App: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Component 1: DVB-T Calculator */}
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-xs font-semibold text-theme-text-secondary uppercase tracking-wider pl-1">
-              <Tv className="w-4 h-4 text-flux-wine" />
+            <div className="flex items-center gap-2 text-xs font-semibold text-[var(--theme-text-secondary)] uppercase tracking-wider pl-1">
+              <Tv className="w-4 h-4 text-[var(--color-flux-wine)]" />
               <span>DVB-T Transmission Matrix</span>
             </div>
             <DvbTCalculator />
@@ -87,8 +60,8 @@ const App: React.FC = () => {
 
           {/* Component 2: DVB-S Utility */}
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-xs font-semibold text-theme-text-secondary uppercase tracking-wider pl-1">
-              <Radio className="w-4 h-4 text-flux-slate" />
+            <div className="flex items-center gap-2 text-xs font-semibold text-[var(--theme-text-secondary)] uppercase tracking-wider pl-1">
+              <Radio className="w-4 h-4 text-[var(--color-flux-slate)]" />
               <span>DVB-S/S2 Intermediate Feed routing</span>
             </div>
             <DvbSCalculator />
@@ -97,18 +70,22 @@ const App: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-theme-border mt-16 py-6 transition-all-custom">
-        <div className="max-w-[1400px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-theme-text-secondary gap-4">
-          <div>
-            <span>&copy; {new Date().getFullYear()} Flux Telemetry Inc. All rights reserved.</span>
-          </div>
-          <div className="flex gap-4">
-            <span className="hover:text-theme-text-primary transition-colors cursor-default">DVB-T Standard EN 300 744</span>
-            <span className="text-theme-border">|</span>
-            <span className="hover:text-theme-text-primary transition-colors cursor-default">LNB Ku ITU Regulations</span>
-          </div>
+      {/* @ts-ignore */}
+      <ui-footer>
+        <div slot="footer-signature" className="font-mono text-xs text-[var(--theme-text-secondary)]">&gt; sys_admin: ~/$ &copy; 2026 Open Source</div>
+        <div slot="footer-repo" className="flex gap-4 items-center">
+          <a href="https://github.com/FluxFae/Calculator-Bitrate-DVB-T-and-IF-Satellite" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:text-[var(--theme-text-primary)] transition-colors cursor-pointer">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="opacity-80"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            GitHub
+          </a>
+          <span className="text-[var(--theme-border)]">|</span>
+          <span className="hover:text-[var(--theme-text-primary)] transition-colors cursor-default">MIT License</span>
         </div>
-      </footer>
+        <div slot="footer-status" className="flex items-center gap-2">
+          <span>v1.0.5</span>
+          <div className="w-2 h-2 rounded-full bg-[var(--color-flux-success)] animate-pulse"></div>
+        </div>
+      </ui-footer>
     </div>
   );
 };

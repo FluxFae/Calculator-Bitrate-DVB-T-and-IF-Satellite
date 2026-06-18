@@ -1,5 +1,6 @@
 {
   "name": "prj-calculator-bitrate",
+  "description": "Quickly calculate the band according to DVB-T modulation and find the IF and Matrix Quadrant",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,19 +11,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "lucide-react": "^0.436.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "lucide-react": "0.436.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^4.0.0",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.5"
+    "@tailwindcss/vite": "4.3.1",
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "@vitejs/plugin-react": "6.0.2",
+    "autoprefixer": "10.4.19",
+    "postcss": "8.4.38",
+    "tailwindcss": "4.3.1",
+    "typescript": "5.7.2",
+    "vite": "8.0.16"
   }
 }

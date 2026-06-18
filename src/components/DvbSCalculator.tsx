@@ -53,13 +53,13 @@ export const DvbSCalculator: React.FC = () => {
 
 
   return (
-    <div className="bg-theme-surface border border-theme-border rounded-xl p-6 shadow-md transition-all duration-200 hover:border-theme-card-hover-border">
+    <div className="bg-[var(--theme-surface)] border border-[var(--theme-border)] rounded-xl p-6 shadow-md transition-all duration-200 hover:border-[var(--color-flux-wine)]">
       {/* Header */}
-      <div className="border-b border-theme-border pb-4 mb-6 flex items-center justify-between">
-        <h2 className="text-xl font-bold tracking-tight text-theme-text-primary font-sans">
+      <div className="border-b border-[var(--theme-border)] pb-4 mb-6 flex items-center justify-between">
+        <h2 className="text-xl font-bold tracking-tight text-[var(--theme-text-primary)] font-sans">
           DVB-S/S2 LNB & Coaxial IF Utility
         </h2>
-        <span className="bg-flux-slate text-white text-xs font-semibold px-2.5 py-1 rounded-md uppercase tracking-wider">
+        <span className="bg-[var(--color-flux-slate)] text-[var(--theme-text-on-brand)] text-xs font-semibold px-2.5 py-1 rounded-md uppercase tracking-wider">
           Universal Ku LNB
         </span>
       </div>
@@ -67,7 +67,7 @@ export const DvbSCalculator: React.FC = () => {
       {/* Grid Inputs */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs font-semibold text-theme-text-secondary uppercase tracking-wider mb-2">
+          <label className="block text-xs font-semibold text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2">
             Satellite Frequency (MHz)
           </label>
           <input
@@ -75,15 +75,15 @@ export const DvbSCalculator: React.FC = () => {
             value={frequency || ''}
             onChange={(e) => setFrequency(parseFloat(e.target.value))}
             placeholder="e.g. 11780"
-            className="w-full bg-theme-input-bg text-theme-text-primary border border-theme-border rounded-lg px-3 py-2.5 text-sm focus:border-flux-accent focus:ring-2 focus:ring-flux-accent/10 focus:outline-none transition-all duration-200"
+            className="w-full bg-[var(--theme-input-bg)] text-[var(--theme-text-primary)] border border-[var(--theme-border)] rounded-lg px-3 py-2.5 text-sm focus:border-[var(--color-flux-accent)] focus:ring-2 focus:ring-[var(--color-flux-accent)]/10 focus:outline-none transition-all duration-200"
           />
-          <span className="text-[10px] text-theme-text-secondary mt-1 block">
+          <span className="text-[10px] text-[var(--theme-text-secondary)] mt-1 block">
             Ku Threshold: 11,700 MHz ({results.freq < LNB_BAND_THRESHOLD ? 'Low Band' : 'High Band'})
           </span>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-theme-text-secondary uppercase tracking-wider mb-2">
+          <label className="block text-xs font-semibold text-[var(--theme-text-secondary)] uppercase tracking-wider mb-2">
             LNB Polarization
           </label>
           <div className="flex gap-2">
@@ -91,8 +91,8 @@ export const DvbSCalculator: React.FC = () => {
               onClick={() => setPolarization('V')}
               className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 border ${
                 polarization === 'V'
-                  ? 'bg-flux-wine text-white border-flux-wine shadow-md shadow-flux-wine/25'
-                  : 'bg-theme-input-bg text-theme-text-secondary border-theme-border hover:border-flux-accent hover:text-flux-accent'
+                  ? 'bg-[var(--color-flux-wine)] text-[var(--theme-text-on-brand)] border-[var(--color-flux-wine)] shadow-md shadow-[var(--color-flux-wine)]/25'
+                  : 'bg-[var(--theme-input-bg)] text-[var(--theme-text-secondary)] border-[var(--theme-border)] hover:border-[var(--color-flux-accent)] hover:text-[var(--color-flux-accent)]'
               }`}
             >
               Vertical (V)
@@ -101,8 +101,8 @@ export const DvbSCalculator: React.FC = () => {
               onClick={() => setPolarization('H')}
               className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 border ${
                 polarization === 'H'
-                  ? 'bg-flux-wine text-white border-flux-wine shadow-md shadow-flux-wine/25'
-                  : 'bg-theme-input-bg text-theme-text-secondary border-theme-border hover:border-flux-accent hover:text-flux-accent'
+                  ? 'bg-[var(--color-flux-wine)] text-[var(--theme-text-on-brand)] border-[var(--color-flux-wine)] shadow-md shadow-[var(--color-flux-wine)]/25'
+                  : 'bg-[var(--theme-input-bg)] text-[var(--theme-text-secondary)] border-[var(--theme-border)] hover:border-[var(--color-flux-accent)] hover:text-[var(--color-flux-accent)]'
               }`}
             >
               Horizontal (H)
@@ -114,54 +114,54 @@ export const DvbSCalculator: React.FC = () => {
       {/* Calculations Grid Output */}
       <div className="grid grid-cols-2 gap-4">
         {/* Metric 1: Intermediate Frequency */}
-        <div className="bg-theme-bg border border-theme-border rounded-xl p-4 transition-all duration-200 hover:border-flux-wine/30">
-          <div className="text-xs font-semibold text-theme-text-secondary uppercase tracking-wider">
+        <div className="bg-[var(--theme-bg)] border border-[var(--theme-border)] rounded-xl p-4 transition-all duration-200 hover:border-[var(--color-flux-wine)]/30">
+          <div className="text-xs font-semibold text-[var(--theme-text-secondary)] uppercase tracking-wider">
             Cable Coaxial (FI)
           </div>
-          <div className="text-2xl font-bold text-theme-text-primary font-mono select-all mt-2">
+          <div className="text-2xl font-bold text-[var(--theme-text-primary)] font-mono select-all mt-2">
             {results.fi > 0 ? `${results.fi.toFixed(1)}` : '0.0'}{' '}
-            <span className="text-sm font-sans font-normal text-theme-text-secondary">MHz</span>
+            <span className="text-sm font-sans font-normal text-[var(--theme-text-secondary)]">MHz</span>
           </div>
-          <div className="text-[10px] text-theme-text-secondary font-sans mt-2 border-t border-theme-border/50 pt-2">
+          <div className="text-[10px] text-[var(--theme-text-secondary)] font-sans mt-2 border-t border-[var(--theme-border)]/50 pt-2">
             LO: {results.lo} MHz | F - LO
           </div>
         </div>
 
         {/* Metric 2: Quad Matrix */}
-        <div className="bg-theme-bg border border-theme-border rounded-xl p-4 transition-all duration-200 hover:border-flux-wine/30">
-          <div className="text-xs font-semibold text-theme-text-secondary uppercase tracking-wider">
+        <div className="bg-[var(--theme-bg)] border border-[var(--theme-border)] rounded-xl p-4 transition-all duration-200 hover:border-[var(--color-flux-wine)]/30">
+          <div className="text-xs font-semibold text-[var(--theme-text-secondary)] uppercase tracking-wider">
             Matrix Quadrant
           </div>
-          <div className="text-2xl font-bold text-flux-success font-mono select-all mt-2">
+          <div className="text-2xl font-bold text-[var(--color-flux-success)] font-mono select-all mt-2">
             {results.quadrant}
           </div>
-          <div className="text-[10px] text-theme-text-secondary font-sans mt-2 border-t border-theme-border/50 pt-2 truncate">
+          <div className="text-[10px] text-[var(--theme-text-secondary)] font-sans mt-2 border-t border-[var(--theme-border)]/50 pt-2 truncate">
             {results.quadrantName}
           </div>
         </div>
 
         {/* Metric 3: pilot tone */}
-        <div className="bg-theme-bg border border-theme-border rounded-xl p-4 transition-all duration-200 hover:border-flux-wine/30">
-          <div className="text-xs font-semibold text-theme-text-secondary uppercase tracking-wider">
+        <div className="bg-[var(--theme-bg)] border border-[var(--theme-border)] rounded-xl p-4 transition-all duration-200 hover:border-[var(--color-flux-wine)]/30">
+          <div className="text-xs font-semibold text-[var(--theme-text-secondary)] uppercase tracking-wider">
             LNB Pilot Tone
           </div>
-          <div className="text-2xl font-bold text-flux-terracotta font-mono select-all mt-2">
+          <div className="text-2xl font-bold text-[var(--color-flux-terracotta)] font-mono select-all mt-2">
             {results.tone}
           </div>
-          <div className="text-[10px] text-theme-text-secondary font-sans mt-2 border-t border-theme-border/50 pt-2">
+          <div className="text-[10px] text-[var(--theme-text-secondary)] font-sans mt-2 border-t border-[var(--theme-border)]/50 pt-2">
             Band: {results.freq >= LNB_BAND_THRESHOLD ? 'High' : 'Low'}
           </div>
         </div>
 
         {/* Metric 4: switching voltage */}
-        <div className="bg-theme-bg border border-theme-border rounded-xl p-4 transition-all duration-200 hover:border-flux-wine/30">
-          <div className="text-xs font-semibold text-theme-text-secondary uppercase tracking-wider">
+        <div className="bg-[var(--theme-bg)] border border-[var(--theme-border)] rounded-xl p-4 transition-all duration-200 hover:border-[var(--color-flux-wine)]/30">
+          <div className="text-xs font-semibold text-[var(--theme-text-secondary)] uppercase tracking-wider">
             Switching Voltage
           </div>
-          <div className="text-2xl font-bold text-flux-accent font-mono select-all mt-2">
+          <div className="text-2xl font-bold text-[var(--color-flux-accent)] font-mono select-all mt-2">
             {results.voltage}
           </div>
-          <div className="text-[10px] text-theme-text-secondary font-sans mt-2 border-t border-theme-border/50 pt-2">
+          <div className="text-[10px] text-[var(--theme-text-secondary)] font-sans mt-2 border-t border-[var(--theme-border)]/50 pt-2">
             Mapped polarity: {POLARITY_MAPPING[polarization]}
           </div>
         </div>

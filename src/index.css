@@ -1,67 +1,37 @@
 @import "tailwindcss";
 
 @theme {
-  --color-flux-wine: #6b1f3f;
-  --color-flux-burgundy: #8b2e5f;
-  --color-flux-accent: #d946a6;
-  --color-flux-hover: #a01d6c;
-  --color-flux-terracotta: #c97a47;
-  --color-flux-sage: #6b9e7f;
-  --color-flux-slate: #4a5e8c;
-  
-  --color-flux-success: #10b981;
-  --color-flux-warning: #f97316;
-  --color-flux-error: #ef4444;
-
-  --color-theme-bg: var(--theme-bg);
-  --color-theme-surface: var(--theme-surface);
-  --color-theme-border: var(--theme-border);
-  --color-theme-text-primary: var(--theme-text-primary);
-  --color-theme-text-secondary: var(--theme-text-secondary);
-  --color-theme-input-bg: var(--theme-input-bg);
-  --color-theme-disabled-bg: var(--theme-disabled-bg);
-  --color-theme-disabled-text: var(--theme-disabled-text);
-  --color-theme-card-hover-border: var(--theme-card-hover-border);
-
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --color-flux-wine: #6B1F3F;
+    --color-flux-burgundy: #8B2E5F;
+    --color-flux-accent: #D946A6;
+    --color-flux-hover: #A01D6C;
+    --color-flux-terracotta: #C97A47;
+    --color-flux-sage: #6B9E7F;
+    --color-flux-slate: #4A5E8C;
+    --color-flux-disabled: #5A5A5A;
+    --color-flux-success: #10B981;
+    --color-flux-warning: #F97316;
+    --color-flux-error: #EF4444;
 }
 
 :root {
-  /* Default: Dark Theme */
-  --theme-bg: #1a1a1a;
-  --theme-surface: #232323;
-  --theme-border: #3d3d3d;
-  --theme-text-primary: #ffffff;
-  --theme-text-secondary: #a0a0a0;
-  --theme-input-bg: #1a1a1a;
-  --theme-disabled-bg: #5a5a5a;
-  --theme-disabled-text: #a0a0a0;
-  --theme-card-hover-border: #6b1f3f;
+    --theme-bg: #1A1A1A;
+    --theme-surface: #232323;
+    --theme-border: #3D3D3D;
+    --theme-border-active: #D946A6;
+    --theme-text-primary: #FFFFFF;
+    --theme-text-secondary: #A0A0A0;
+    --theme-text-on-brand: #FFFFFF;
+    --theme-input-bg: #1A1A1A;
 }
 
 :root.light {
-  /* Light Theme Override */
-  --theme-bg: #f8f8f8;
-  --theme-surface: #ffffff;
-  --theme-border: #e5e5e5;
-  --theme-text-primary: #1a1a1a;
-  --theme-text-secondary: #5a5a5a;
-  --theme-input-bg: #ffffff;
-  --theme-disabled-bg: #e5e5e5;
-  --theme-disabled-text: #a0a0a0;
-  --theme-card-hover-border: #d946a6;
-}
-
-/* Custom CSS micro-animations for interactions */
-.transition-all-custom {
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.focus-ring-custom {
-  outline: none;
-}
-.focus-ring-custom:focus-visible {
-  outline: 2px solid var(--theme-card-hover-border);
-  outline-offset: 2px;
+    --theme-bg: #F8F8F8;
+    --theme-surface: #FFFFFF;
+    --theme-border: #E5E5E5;
+    --theme-border-active: #D946A6;
+    --theme-text-primary: #1A1A1A;
+    --theme-text-secondary: #4A4A4A;
+    --theme-text-on-brand: #FFFFFF;
+    --theme-input-bg: #FFFFFF;
 }
