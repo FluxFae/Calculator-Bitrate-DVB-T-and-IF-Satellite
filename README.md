@@ -28,7 +28,7 @@ If you want to run or modify this project locally, follow these simple steps. We
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/FluxFae/Calculator-Bitrate-DVB-T-and-IF-Satellite.git
-   cd prj-calculator-bitrate
+   cd Calculator-Bitrate-DVB-T-and-IF-Satellite
    ```
 
 2. **Install dependencies**:
@@ -44,7 +44,7 @@ If you want to run or modify this project locally, follow these simple steps. We
    This will start the local server. Open the link provided in your terminal (usually `http://localhost:5173`) to view the application in your browser.
 
 ## ⚙️ Tech Stack
-- **Frontend**: React 19, TypeScript 5+, Vite 6, Tailwind CSS v4.0.0.
+- **Frontend**: React 19, TypeScript 5+, Vite 8, Tailwind CSS v4.
 - **Icons**: Lucide React.
 
 *(No backend applies, this is a 100% local/client-side tool)*.

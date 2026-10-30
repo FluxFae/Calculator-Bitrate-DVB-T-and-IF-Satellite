@@ -32,7 +32,6 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[var(--theme-bg)] text-[var(--theme-text-primary)] transition-all-custom font-sans antialiased">
       {/* Header / Nav Container */}
-      {/* @ts-ignore - Web Component recognized globally, ignoring linter just in case */}
       <ui-header ref={headerRef} theme={theme}>
         <Layers slot="app-icon" className="w-5 h-5 text-[var(--theme-text-primary)]" />
         <div slot="app-title">RF & Digital Broadcast Utilities</div>
@@ -70,7 +69,6 @@ const App: React.FC = () => {
       </main>
 
       {/* Footer */}
-      {/* @ts-ignore */}
       <ui-footer>
         <div slot="footer-signature" className="font-mono text-xs text-[var(--theme-text-secondary)]">&gt; sys_admin: ~/$ &copy; 2026 Open Source</div>
         <div slot="footer-repo" className="flex gap-4 items-center">
@@ -82,7 +80,7 @@ const App: React.FC = () => {
           <span className="hover:text-[var(--theme-text-primary)] transition-colors cursor-default">MIT License</span>
         </div>
         <div slot="footer-status" className="flex items-center gap-2">
-          <span>v1.0.5</span>
+          <span>v{__APP_VERSION__}</span>
           <div className="w-2 h-2 rounded-full bg-[var(--color-flux-success)] animate-pulse"></div>
         </div>
       </ui-footer>
