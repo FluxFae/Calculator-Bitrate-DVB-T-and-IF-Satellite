@@ -5,6 +5,21 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Same rule as src/lib/theme.ts, applied before the first paint so a stored
+    // or system-preferred light theme does not flash dark on load.
+    (() => {
+      try {
+        const stored = localStorage.getItem('theme');
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        const theme = stored === 'light' || stored === 'dark' ? stored : prefersLight ? 'light' : 'dark';
+        document.documentElement.classList.toggle('light', theme === 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      } catch {
+        // Storage unavailable (private mode): keep the CSS default.
+      }
+    })();
+  </script>
   <title>RF & Digital Broadcast Utilities</title>
   <meta name="description"
     content="Quickly calculate the band according to DVB-T modulation and find the IF and Matrix Quadrant" />

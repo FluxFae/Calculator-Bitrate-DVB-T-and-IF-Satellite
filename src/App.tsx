@@ -2,18 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Radio, Tv, Layers } from 'lucide-react';
 import { DvbTCalculator } from './components/DvbTCalculator';
 import { DvbSCalculator } from './components/DvbSCalculator';
+import { resolveInitialTheme, THEME_STORAGE_KEY, type Theme } from './lib/theme';
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [theme, setTheme] = useState<Theme>(() =>
+    resolveInitialTheme(
+      localStorage.getItem(THEME_STORAGE_KEY),
+      window.matchMedia('(prefers-color-scheme: light)').matches
+    )
+  );
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    // Apply theme to document root
-    if (theme === 'light') {
-      document.documentElement.classList.add('light');
-    } else {
-      document.documentElement.classList.remove('light');
-    }
+    // Apply theme to document root and remember the choice.
+    document.documentElement.classList.toggle('light', theme === 'light');
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
 
   useEffect(() => {
@@ -21,7 +25,7 @@ const App: React.FC = () => {
     if (!header) return;
 
     const handleThemeChange = (e: Event) => {
-      const customEvent = e as CustomEvent<{ theme: 'light' | 'dark' }>;
+      const customEvent = e as CustomEvent<{ theme: Theme }>;
       setTheme(customEvent.detail.theme);
     };
 

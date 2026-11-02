@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
     --color-flux-wine: #6B1F3F;
     --color-flux-burgundy: #8B2E5F;
     --color-flux-accent: #D946A6;
