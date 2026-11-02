@@ -17,6 +17,7 @@ build/
 
 # Testing
 coverage/
+.vitest/
 
 # Local env files
 .env

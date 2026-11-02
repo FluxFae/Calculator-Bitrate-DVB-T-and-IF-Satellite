@@ -12,6 +12,16 @@ import {
   DVB_T_GI_VALUES,
   RS_RATE,
 } from '../types/rf';
+import {
+  centerToUhfChannel,
+  isValidUhfCenter,
+  isValidUhfChannel,
+  uhfChannelToCenter,
+  UHF_FIRST_CENTER_MHZ,
+  UHF_FIRST_CHANNEL,
+  UHF_LAST_CENTER_MHZ,
+  UHF_LAST_CHANNEL,
+} from '../lib/rf';
 
 export const DvbTCalculator: React.FC = () => {
   // 1. Component State
@@ -27,28 +37,32 @@ export const DvbTCalculator: React.FC = () => {
   const [centerFreq, setCenterFreq] = useState<number | ''>(674);
 
   const handleChannelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    if (val === '') {
+    const raw = e.target.value;
+    if (raw === '') {
       setUhfChannel('');
       setCenterFreq('');
       return;
     }
-    const ch = parseInt(val, 10);
-    setUhfChannel(ch);
-    setCenterFreq(474 + (ch - 21) * 8);
+    const channel = Number(raw);
+    setUhfChannel(channel);
+    // An out-of-range channel keeps what was typed but stops deriving a center.
+    setCenterFreq(isValidUhfChannel(channel) ? uhfChannelToCenter(channel) : '');
   };
 
   const handleFreqChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    if (val === '') {
+    const raw = e.target.value;
+    if (raw === '') {
       setUhfChannel('');
       setCenterFreq('');
       return;
     }
-    const freq = parseFloat(val);
-    setCenterFreq(freq);
-    setUhfChannel(Math.round(((freq - 474) / 8) + 21));
+    const center = Number(raw);
+    setCenterFreq(center);
+    setUhfChannel(isValidUhfCenter(center) ? centerToUhfChannel(center) : '');
   };
+
+  const channelInvalid = uhfChannel !== '' && !isValidUhfChannel(uhfChannel);
+  const centerInvalid = centerFreq !== '' && !isValidUhfCenter(centerFreq);
 
   // 2. State Setters with Strict Casting
   const handleChange = (key: keyof DvbTParams, value: string) => {
@@ -216,6 +230,7 @@ export const DvbTCalculator: React.FC = () => {
               type="number"
               value={uhfChannel}
               onChange={handleChannelChange}
+              aria-invalid={channelInvalid}
               placeholder="e.g. 46"
               className="w-full bg-[var(--theme-input-bg)] text-[var(--theme-text-primary)] border border-[var(--theme-border)] rounded-lg px-3 py-2.5 text-sm focus:border-[var(--color-flux-accent)] focus:ring-2 focus:ring-[var(--color-flux-accent)]/10 focus:outline-none transition-all duration-200"
             />
@@ -228,12 +243,23 @@ export const DvbTCalculator: React.FC = () => {
               type="number"
               value={centerFreq}
               onChange={handleFreqChange}
+              aria-invalid={centerInvalid}
               placeholder="e.g. 674"
               className="w-full bg-[var(--theme-input-bg)] text-[var(--theme-text-primary)] border border-[var(--theme-border)] rounded-lg px-3 py-2.5 text-sm focus:border-[var(--color-flux-accent)] focus:ring-2 focus:ring-[var(--color-flux-accent)]/10 focus:outline-none transition-all duration-200"
             />
           </div>
         </div>
-        {typeof centerFreq === 'number' && (
+        {channelInvalid || centerInvalid ? (
+          <div
+            role="status"
+            className="px-4 pb-3 text-xs font-sans text-[var(--color-flux-warning)]"
+          >
+            {channelInvalid
+              ? `UHF channel must be a whole number between ${UHF_FIRST_CHANNEL} and ${UHF_LAST_CHANNEL}.`
+              : `Center frequency must be between ${UHF_FIRST_CENTER_MHZ} and ${UHF_LAST_CENTER_MHZ} MHz.`}
+          </div>
+        ) : null}
+        {typeof centerFreq === 'number' && isValidUhfCenter(centerFreq) && (
           <div className="px-4 py-3 bg-[var(--theme-surface)] border-t border-[var(--theme-border)] text-xs font-mono text-[var(--theme-text-secondary)]">
             Band edges: {(centerFreq - 4).toFixed(2)} MHz - {(centerFreq + 4).toFixed(2)} MHz
           </div>

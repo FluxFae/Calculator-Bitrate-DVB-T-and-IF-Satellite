@@ -6,6 +6,7 @@ import {
   POLARITY_MAPPING,
   POLARITY_VOLTAGE,
 } from '../types/rf';
+import { isIfInRange, lnbBandLabel, LNB_IF_MAX_MHZ, LNB_IF_MIN_MHZ } from '../lib/rf';
 
 export const DvbSCalculator: React.FC = () => {
   // 1. Component State
@@ -52,6 +53,9 @@ export const DvbSCalculator: React.FC = () => {
   }, [frequency, polarization]);
 
 
+  const bandLabel = lnbBandLabel(results.freq);
+  const ifOutOfRange = results.fi > 0 && !isIfInRange(results.fi);
+
   return (
     <div className="bg-[var(--theme-surface)] border border-[var(--theme-border)] rounded-xl p-6 shadow-md transition-all duration-200 hover:border-[var(--color-flux-wine)]">
       {/* Header */}
@@ -78,7 +82,7 @@ export const DvbSCalculator: React.FC = () => {
             className="w-full bg-[var(--theme-input-bg)] text-[var(--theme-text-primary)] border border-[var(--theme-border)] rounded-lg px-3 py-2.5 text-sm focus:border-[var(--color-flux-accent)] focus:ring-2 focus:ring-[var(--color-flux-accent)]/10 focus:outline-none transition-all duration-200"
           />
           <span className="text-[10px] text-[var(--theme-text-secondary)] mt-1 block">
-            Ku Threshold: 11,700 MHz ({results.freq < LNB_BAND_THRESHOLD ? 'Low Band' : 'High Band'})
+            Ku threshold: {LNB_BAND_THRESHOLD} MHz{bandLabel ? ` (${bandLabel})` : ''}
           </span>
         </div>
 
@@ -149,7 +153,7 @@ export const DvbSCalculator: React.FC = () => {
             {results.tone}
           </div>
           <div className="text-[10px] text-[var(--theme-text-secondary)] font-sans mt-2 border-t border-[var(--theme-border)]/50 pt-2">
-            Band: {results.freq >= LNB_BAND_THRESHOLD ? 'High' : 'Low'}
+            Band: {bandLabel ?? '\u2014'}
           </div>
         </div>
 
@@ -166,6 +170,16 @@ export const DvbSCalculator: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {ifOutOfRange && (
+        <div
+          role="status"
+          className="mt-4 rounded-lg border border-[var(--color-flux-warning)]/40 bg-[var(--color-flux-warning)]/10 px-4 py-3 text-xs font-sans text-[var(--color-flux-warning)]"
+        >
+          Intermediate frequency of {results.fi.toFixed(1)} MHz falls outside the{' '}
+          {LNB_IF_MIN_MHZ}-{LNB_IF_MAX_MHZ} MHz LNB output window.
+        </div>
+      )}
     </div>
   );
 };
